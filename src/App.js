@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Header from "./Header";
+import AddTodo from "./AddTodo";
 import Todos from "./Todos";
 import "./App.css";
 
@@ -45,9 +47,21 @@ class App extends Component {
         });
     };
 
+    addTodo = (title) => {
+        const newTodo = {
+            id: 4,
+            title: title,
+            completed: false
+        };
+
+        this.setState({ todos: [...this.state.todos, newTodo] });
+    };
+
     render() {
         return (
             <div className="App">
+                <Header />
+                <AddTodo addTodo={this.addTodo} />
                 <Todos
                     todos={this.state.todos}
                     markCompleteFromApp={this.markComplete}
