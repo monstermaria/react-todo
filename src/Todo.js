@@ -27,14 +27,22 @@ class Todo extends Component {
                     )}
                 ></input>
                 {this.props.todoProp.title}
-                <button style={buttonStyle}>x</button>
+                <button
+                    onClick={this.props.deleteTodo.bind(
+                        this,
+                        this.props.todoProp.id
+                    )}
+                    style={buttonStyle}
+                >
+                    x
+                </button>
             </div>
         );
     }
 }
 
 const buttonStyle = {
-    backgroundColor: "#ff0000",
+    backgroundColor: "#0000ff",
     color: "#fff",
     border: "none",
     borderRadius: "50%",

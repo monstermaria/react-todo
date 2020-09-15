@@ -15,6 +15,7 @@ class Todos extends Component {
                             markCompleteFromTodos={
                                 this.props.markCompleteFromApp
                             }
+                            deleteTodo={this.props.deleteTodo}
                         ></Todo>
                     );
                 })}
