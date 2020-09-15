@@ -14,24 +14,18 @@ class Todo extends Component {
     }
 
     render() {
-        const that = this;
+        const { id, title } = this.props.todoProp;
+
         return (
             <div style={this.getStyle()}>
                 <input
                     // style={{ display: "inline-block" }}
                     type="checkbox"
-                    onChange={this.props.markCompleteFromTodos.bind(
-                        null,
-                        this.props.todoProp.id,
-                        that
-                    )}
+                    onChange={this.props.markCompleteFromTodos.bind(null, id)}
                 ></input>
-                {this.props.todoProp.title}
+                {title}
                 <button
-                    onClick={this.props.deleteTodo.bind(
-                        this,
-                        this.props.todoProp.id
-                    )}
+                    onClick={this.props.deleteTodo.bind(this, id)}
                     style={buttonStyle}
                 >
                     x
