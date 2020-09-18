@@ -19,9 +19,8 @@ class Todo extends Component {
         return (
             <div style={this.getStyle()}>
                 <input
-                    // style={{ display: "inline-block" }}
                     type="checkbox"
-                    onChange={this.props.markCompleteFromTodos.bind(null, id)}
+                    onChange={this.props.markComplete.bind(null, id)}
                 ></input>
                 {title}
                 <button
@@ -46,7 +45,9 @@ const buttonStyle = {
 };
 
 Todo.propTypes = {
-    todoProp: PropTypes.object.isRequired
+    todoProp: PropTypes.object.isRequired,
+    markComplete: PropTypes.func.isRequired,
+    deleteTodo: PropTypes.func.isRequired
 };
 
 export default Todo;
