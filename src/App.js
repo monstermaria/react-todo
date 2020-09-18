@@ -1,28 +1,31 @@
 import React, { Component } from "react";
-import { v4 as uuid } from "uuid";
+import { HashRouter as Router, Route } from "react-router-dom";
+// import { v4 as uuid } from "uuid";
 import Header from "./Header";
 import AddTodo from "./AddTodo";
 import Todos from "./Todos";
+import About from "./About";
 import "./App.css";
+import axios from "axios";
 
 class App extends Component {
     state = {
         todos: [
-            {
-                id: uuid(),
-                title: "Göra inlämningsuppgift",
-                completed: false
-            },
-            {
-                id: uuid(),
-                title: "Sova",
-                completed: false
-            },
-            {
-                id: uuid(),
-                title: "Äta godis",
-                completed: false
-            }
+            // {
+            //     id: uuid(),
+            //     title: "Göra inlämningsuppgift",
+            //     completed: false
+            // },
+            // {
+            //     id: uuid(),
+            //     title: "Sova",
+            //     completed: false
+            // },
+            // {
+            //     id: uuid(),
+            //     title: "Äta godis",
+            //     completed: false
+            // }
         ]
     };
 
@@ -41,34 +44,65 @@ class App extends Component {
     };
 
     deleteTodo = (id) => {
-        this.setState({
-            todos: this.state.todos.filter((todo) => {
-                return todo.id !== id;
-            })
-        });
+        axios
+            .delete(`https://jsonplaceholder.typicode.com/todos/${id}`)
+            .then((res) => {
+                this.setState({
+                    todos: this.state.todos.filter((todo) => {
+                        return todo.id !== id;
+                    })
+                });
+            });
     };
 
     addTodo = (title) => {
-        const newTodo = {
-            id: uuid(),
-            title: title,
-            completed: false
-        };
+        // const newTodo = {
+        //     id: uuid(),
+        //     title: title,
+        //     completed: false
+        // };
+        // this.setState({ todos: [...this.state.todos, newTodo] });
 
-        this.setState({ todos: [...this.state.todos, newTodo] });
+        axios
+            .post("https://jsonplaceholder.typicode.com/todos", {
+                title,
+                completed: false
+            })
+            .then((res) =>
+                this.setState({ todos: [...this.state.todos, res.data] })
+            );
     };
+
+    componentDidMount() {
+        axios
+            .get("https://jsonplaceholder.typicode.com/todos?_limit=10")
+            .then((res) => this.setState({ todos: res.data }));
+    }
 
     render() {
         return (
-            <div className="App">
-                <Header />
-                <AddTodo addTodo={this.addTodo} />
-                <Todos
-                    todos={this.state.todos}
-                    markCompleteFromApp={this.markComplete}
-                    deleteTodo={this.deleteTodo}
-                />
-            </div>
+            <Router>
+                <div className="App">
+                    <Header />
+                    <Route
+                        exact
+                        path="/"
+                        render={(props) => {
+                            return (
+                                <React.Fragment>
+                                    <AddTodo addTodo={this.addTodo} />
+                                    <Todos
+                                        todos={this.state.todos}
+                                        markComplete={this.markComplete}
+                                        deleteTodo={this.deleteTodo}
+                                    />
+                                </React.Fragment>
+                            );
+                        }}
+                    />
+                    <Route path="/about" component={About} />
+                </div>
+            </Router>
         );
     }
 }
