@@ -10,7 +10,7 @@ class AddTodo extends Component {
     };
 
     onChange = (event) => {
-        this.setState({ title: event.target.value });
+        this.setState({ [event.target.name]: event.target.value });
     };
 
     render() {
